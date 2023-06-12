@@ -9,6 +9,7 @@ const markdownItTableOfContents = require("markdown-it-table-of-contents");
 const cleanCSS = require("clean-css");
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
 const Image = require("@11ty/eleventy-img");
+const moment = require("moment");
 
 async function image(alt, filepath, darkpath, classes, lossless = true, sizes = "100vw") {
   if (alt === undefined) {
@@ -75,6 +76,14 @@ async function image(alt, filepath, darkpath, classes, lossless = true, sizes = 
 }
 
 module.exports = function (eleventyConfig) {
+  eleventyConfig.addCollection("wiki_en", function (collection) {
+    return collection.getFilteredByGlob("./src/en/wiki/*.md");
+  });
+
+  eleventyConfig.addCollection("wiki_it", function (collection) {
+    return collection.getFilteredByGlob("./src/it/wiki/*.md");
+  });
+
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/welcome-channel.yaml");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
@@ -86,7 +95,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({
     "src/_includes/components/forkawesome": "assets/forkawesome",
   });
-
 
   // Add plugins
   eleventyConfig.addPlugin(pluginRss);
@@ -108,6 +116,13 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat(
       "dd LLL yyyy"
     );
+  });
+
+  // date filter (localized)
+  eleventyConfig.addNunjucksFilter("date", function (date, format, locale) {
+    locale = locale ? locale : "en";
+    moment.locale(locale);
+    return moment(date).format(format);
   });
 
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string

@@ -1,0 +1,10 @@
+{
+  "layout": "layouts/wiki.njk",
+  "tags": [
+    "wiki"
+  ],
+  "data": {
+    "permalink": "/{{ locale }}/wiki/{{ page.fileSlug }}/",
+    "translationKey": "wiki"
+  }
+}

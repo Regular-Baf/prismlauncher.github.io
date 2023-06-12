@@ -1,5 +1,5 @@
 ---
-permalink: /wiki/
+permalink: /en/wiki/
 eleventyNavigation:
   key: Overview
   order: 1

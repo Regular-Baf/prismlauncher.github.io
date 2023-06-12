@@ -1,7 +1,12 @@
 {% if eleventyNavigation and eleventyNavigation.key %}
-{%- set navKey = eleventyNavigation.key -%}
-{%- set otherPages = collections.wiki | eleventyNavigation(navKey) -%}
-{% if otherPages.length > 0 %}
-{{ otherPages | eleventyNavigationToHtml | safe }}
-{% endif %}
+  {%- set navKey = eleventyNavigation.key -%}
+  {%- set otherPages = [] -%}
+  {%- if locale == 'it' -%}
+    {%- set otherPages = collections.wiki_it | eleventyNavigation(navKey) -%}
+  {%- else -%}
+    {%- set otherPages = collections.wiki_en | eleventyNavigation(navKey) -%}
+  {%- endif -%}
+  {% if otherPages.length > 0 %}
+    {{ otherPages | eleventyNavigationToHtml | safe }}
+  {% endif %}
 {% endif %}
